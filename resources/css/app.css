@@ -1,0 +1,344 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap');
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+:root {
+    --ink: #17151F;
+    --ink-soft: #6B6875;
+    --line: #DEDCE3;
+    --line-focus: #17151F;
+    --accent: #B65C3E;
+    --bg: #FBFAF8;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    background-color: var(--bg);
+    color: var(--ink);
+}
+
+/* Tipografía editorial */
+h1, .display-heading {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.eyebrow {
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 500;
+}
+
+/* Navbar minimalista */
+.navbar {
+    background-color: transparent;
+    border-bottom: 1px solid var(--line);
+}
+.navbar-brand {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1.35rem;
+    color: var(--ink) !important;
+}
+.nav-link {
+    font-weight: 500;
+    font-size: 0.92rem;
+    color: var(--ink-soft) !important;
+    margin-left: 1.25rem;
+}
+.nav-link.active,
+.nav-link:hover {
+    color: var(--ink) !important;
+}
+
+/* Formularios estilo "underline" — sin cajas */
+.form-label {
+    font-weight: 500;
+    font-size: 0.82rem;
+    letter-spacing: 0.02em;
+    color: var(--ink-soft);
+    margin-bottom: 0.35rem;
+}
+.form-control, .form-select {
+    border: none;
+    border-bottom: 1.5px solid var(--line);
+    border-radius: 0;
+    padding: 0.65rem 0.15rem;
+    background: transparent;
+    font-size: 1.02rem;
+    color: var(--ink);
+}
+.form-control:focus, .form-select:focus {
+    border-color: var(--line-focus);
+    box-shadow: none;
+    background: transparent;
+}
+textarea.form-control {
+    border: 1.5px solid var(--line);
+    border-radius: 4px;
+    padding: 0.75rem;
+}
+textarea.form-control:focus {
+    border-color: var(--line-focus);
+}
+
+/* Botones */
+.btn {
+    border-radius: 2px;
+    font-weight: 500;
+    font-size: 0.92rem;
+    padding: 0.65rem 1.75rem;
+    letter-spacing: 0.01em;
+}
+.btn-primary {
+    background-color: var(--ink);
+    border-color: var(--ink);
+}
+.btn-primary:hover, .btn-primary:focus {
+    background-color: var(--accent);
+    border-color: var(--accent);
+}
+.btn-outline-secondary {
+    border-color: var(--line);
+    color: var(--ink-soft);
+}
+.btn-outline-secondary:hover {
+    background-color: transparent;
+    border-color: var(--ink);
+    color: var(--ink);
+}
+.btn-link {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 0.92rem;
+}
+.btn-link:hover {
+    color: var(--accent);
+}
+
+/* Tablas — sin bordes de caja, solo líneas horizontales */
+.table {
+    background: transparent;
+}
+.table thead th {
+    border-bottom: 1.5px solid var(--ink);
+    font-weight: 500;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    padding-bottom: 0.85rem;
+}
+.table tbody td {
+    border-bottom: 1px solid var(--line);
+    padding: 1.1rem 0.5rem;
+    vertical-align: middle;
+}
+.table tbody tr:hover {
+    background-color: rgba(0,0,0,0.015);
+}
+
+/* Alertas */
+.alert {
+    border: none;
+    border-left: 3px solid var(--accent);
+    border-radius: 0;
+    background-color: #FBF1EC;
+    color: var(--ink);
+    font-size: 0.92rem;
+}
+.alert-success {
+    border-left-color: #4B7A5A;
+    background-color: #EFF5F0;
+}
+
+.btn-link.text-danger {
+    color: #B04A3E !important;
+}
+.btn-link.text-danger:hover {
+    color: #7A312A !important;
+}
+.fw-medium {
+    font-weight: 500;
+}
+
+/* Badges de estado (útil para cotizaciones) */
+.badge {
+    font-weight: 500;
+    padding: 0.4em 0.8em;
+    border-radius: 6px;
+}
+.badge-neutral {
+    background-color: #EEEDF1;
+    color: var(--ink-soft);
+}
+.badge-success {
+    background-color: #EAF3EC;
+    color: #3E7350;
+}
+.badge-danger {
+    background-color: #FBEEEC;
+    color: #B0473A;
+}
+
+/* Separador editorial */
+.hr-thin {
+    border: none;
+    border-top: 1px solid var(--line);
+    margin: 2.5rem 0;
+}
+
+/* ============ Layout partido (split-screen) ============ */
+.split-wrap {
+    display: flex;
+    min-height: 100vh;
+}
+.split-panel {
+    flex: 0 0 38%;
+    background-color: var(--ink);
+    color: #F5F3EE;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 3vw, 3rem);
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+    height: 100vh;
+}
+.split-panel .mark {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+.split-panel .quote {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.4rem, 2.2vw, 2rem);
+    line-height: 1.25;
+    font-weight: 500;
+    max-width: 22ch;
+}
+.split-panel .foot-note {
+    font-size: 0.8rem;
+    color: #A9A6B0;
+    letter-spacing: 0.03em;
+}
+.split-form {
+    flex: 1;
+    min-width: 0;
+    padding: clamp(2rem, 6vw, 4.5rem) clamp(1.5rem, 6vw, 5rem);
+    max-width: 720px;
+}
+
+/* Campo tipo cuestionario numerado */
+.q-field {
+    display: flex;
+    align-items: baseline;
+    gap: clamp(0.75rem, 2vw, 1.5rem);
+    padding: 1.4rem 0;
+    border-bottom: 1px solid var(--line);
+}
+.q-field .q-num {
+    font-family: 'Fraunces', serif;
+    font-size: 0.95rem;
+    color: var(--accent);
+    flex: 0 0 1.75rem;
+    font-weight: 600;
+}
+.q-field .q-input-wrap {
+    flex: 1;
+    min-width: 0;
+}
+.q-field .form-label {
+    margin-bottom: 0.2rem;
+}
+.q-field .form-control {
+    border-bottom: none;
+    padding: 0.2rem 0;
+    font-size: 1.05rem;
+    width: 100%;
+}
+
+/* Tablet: el panel dark deja de estar fijo a la izquierda y pasa a franja superior */
+@media (max-width: 992px) {
+    .split-wrap { flex-direction: column; min-height: 0; }
+    .split-panel {
+        flex: none;
+        position: static;
+        height: auto;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.25rem 1.5rem;
+    }
+    .split-panel .quote { display: none; }
+    .split-panel .foot-note { display: none; }
+    .split-form { max-width: 100%; }
+}
+
+/* Móvil: los campos numerados apilan número y label en vez de ir en línea */
+@media (max-width: 480px) {
+    .q-field { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
+    .q-field .q-num { flex: none; }
+}
+
+/* ============ Lista de servicios (checklist) ============ */
+.service-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--line);
+}
+.service-item .service-main {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    flex: 1;
+    min-width: 0;
+}
+.service-item .form-check-input {
+    width: 1.1rem;
+    height: 1.1rem;
+    border: 1.5px solid var(--line);
+    border-radius: 3px;
+    margin-top: 0;
+    flex-shrink: 0;
+}
+.service-item .form-check-input:checked {
+    background-color: var(--ink);
+    border-color: var(--ink);
+}
+.service-item .service-name {
+    font-weight: 500;
+    font-size: 1rem;
+}
+.service-item .service-price {
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+.service-item .service-qty {
+    width: 4.5rem;
+    border: none;
+    border-bottom: 1.5px solid var(--line);
+    border-radius: 0;
+    padding: 0.3rem 0.15rem;
+    text-align: center;
+    background: transparent;
+    flex-shrink: 0;
+}
+.service-item .service-qty:focus {
+    border-color: var(--line-focus);
+    box-shadow: none;
+}
+.service-item .service-qty:disabled {
+    opacity: 0.3;
+}
