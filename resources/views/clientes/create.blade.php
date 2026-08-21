@@ -73,7 +73,7 @@
                 <div class="q-num">05</div>
                 <div class="q-input-wrap">
                     <label class="form-label">Email</label>
-                    <input type="email" name="email" value="{{ old('email') }}" class="form-control">
+                    <input type="email" name="email" value="{{ old('email') }}" class="form-control" required>
                 </div>
             </div>
 
@@ -82,6 +82,22 @@
                 <div class="q-input-wrap">
                     <label class="form-label">Dirección</label>
                     <textarea name="direccion" class="form-control" rows="2" style="border: none; border-bottom: 1px solid var(--line); border-radius:0; padding: 0.2rem 0;">{{ old('direccion') }}</textarea>
+                </div>
+            </div>
+
+            <div class="q-field">
+                <div class="q-num">07</div>
+                <div class="q-input-wrap">
+                    <label class="form-label" for="password">Contraseña</label>
+                    <input type="password" name="password" id="password" class="form-control" minlength="8" required>
+                </div>
+            </div>
+
+            <div class="q-field" style="border-bottom: none;">
+                <div class="q-num">08</div>
+                <div class="q-input-wrap">
+                    <label class="form-label" for="password_confirmation">Confirmar contraseña</label>
+                    <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" minlength="8" required>
                 </div>
             </div>
 

@@ -45,6 +45,17 @@
         </div>
     </div>
 
+    @if($servicio->imagenes->isNotEmpty())
+        <div class="mt-5">
+            <div class="eyebrow mb-3" style="font-size: 0.72rem;">Ejemplos de diseño</div>
+            <div class="service-gallery">
+                @foreach($servicio->imagenes as $imagen)
+                    <img src="{{ Storage::disk('public')->url($imagen->ruta) }}" alt="Ejemplo de {{ $servicio->nombre }}">
+                @endforeach
+            </div>
+        </div>
+    @endif
+
     <div class="d-flex align-items-center gap-3 mt-5 pb-5">
         <a href="{{ route('servicios.edit', $servicio->id) }}" class="btn btn-primary">
             Editar servicio

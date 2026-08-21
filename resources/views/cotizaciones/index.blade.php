@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cotizaciones</title>
+    <title>Cotizaciones — PixelCode</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
@@ -14,6 +14,11 @@
         <a class="nav-link {{ request()->routeIs('clientes.*') ? 'active' : '' }}" href="{{ route('clientes.index') }}">Clientes</a>
         <a class="nav-link {{ request()->routeIs('cotizaciones.*') ? 'active' : '' }}" href="{{ route('cotizaciones.index') }}">Cotizaciones</a>
         <a class="nav-link {{ request()->routeIs('servicios.*') ? 'active' : '' }}" href="{{ route('servicios.index') }}">Servicios</a>
+        <a class="nav-link" href="{{ route('home') }}">Ver sitio</a>
+        <form method="POST" action="{{ route('logout') }}" class="ms-2 d-inline">
+            @csrf
+            <button type="submit" class="btn btn-link btn-sm">Salir</button>
+        </form>
     </div>
 </nav>
 
@@ -72,8 +77,8 @@
                             <td>
                                 @php
                                     $estadoClase = match(strtolower($cotizacion->estado)) {
-                                        'aprobada', 'aprobado' => 'badge-success',
-                                        'rechazada', 'rechazado', 'anulada' => 'badge-danger',
+                                        'entregado' => 'badge-success',
+                                        'en proceso' => 'badge-warning',
                                         default => 'badge-neutral',
                                     };
                                 @endphp

@@ -37,8 +37,8 @@
         <div>
             @php
                 $estadoClase = match(strtolower($cotizacion->estado)) {
-                    'aprobada', 'aprobado' => 'badge-success',
-                    'rechazada', 'rechazado', 'anulada' => 'badge-danger',
+                    'entregado' => 'badge-success',
+                    'en proceso' => 'badge-warning',
                     default => 'badge-neutral',
                 };
             @endphp

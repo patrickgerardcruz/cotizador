@@ -32,7 +32,7 @@
         </div>
     @endif
 
-    <form action="{{ route('servicios.store') }}" method="POST">
+    <form action="{{ route('servicios.store') }}" method="POST" enctype="multipart/form-data">
 
         @csrf
 
@@ -57,6 +57,15 @@
             <div class="q-input-wrap">
                 <label class="form-label">Precio (S/)</label>
                 <input type="number" name="precio" step="0.01" min="0" value="{{ old('precio') }}" class="form-control">
+            </div>
+        </div>
+
+        <div class="q-field" style="border-bottom: none;">
+            <div class="q-num">04</div>
+            <div class="q-input-wrap">
+                <label class="form-label">Fotos de ejemplos</label>
+                <input type="file" name="fotos[]" class="form-control" accept="image/jpeg,image/png,image/webp" multiple>
+                <div class="form-text">Puedes subir hasta 8 imágenes de máximo 5 MB cada una.</div>
             </div>
         </div>
 

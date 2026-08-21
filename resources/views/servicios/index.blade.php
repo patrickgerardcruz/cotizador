@@ -14,6 +14,11 @@
         <a class="nav-link {{ request()->routeIs('clientes.*') ? 'active' : '' }}" href="{{ route('clientes.index') }}">Clientes</a>
         <a class="nav-link {{ request()->routeIs('cotizaciones.*') ? 'active' : '' }}" href="{{ route('cotizaciones.index') }}">Cotizaciones</a>
         <a class="nav-link {{ request()->routeIs('servicios.*') ? 'active' : '' }}" href="{{ route('servicios.index') }}">Servicios</a>
+        <a class="nav-link" href="{{ route('home') }}">Ver sitio</a>
+        <form method="POST" action="{{ route('logout') }}" class="ms-2 d-inline">
+            @csrf
+            <button type="submit" class="btn btn-link btn-sm">Salir</button>
+        </form>
     </div>
 </nav>
 
