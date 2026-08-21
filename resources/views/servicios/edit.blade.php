@@ -32,7 +32,7 @@
         </div>
     @endif
 
-    <form action="{{ route('servicios.update', $servicio->id) }}" method="POST">
+    <form action="{{ route('servicios.update', $servicio->id) }}" method="POST" enctype="multipart/form-data">
 
         @csrf
         @method('PUT')
@@ -76,6 +76,15 @@
             </div>
         </div>
 
+        <div class="q-field" style="border-bottom: none;">
+            <div class="q-num">05</div>
+            <div class="q-input-wrap">
+                <label class="form-label">Agregar fotos de ejemplos</label>
+                <input type="file" name="fotos[]" class="form-control" accept="image/jpeg,image/png,image/webp" multiple>
+                <div class="form-text">Puedes agregar hasta 8 imágenes por actualización, de máximo 5 MB cada una.</div>
+            </div>
+        </div>
+
         <div class="d-flex align-items-center gap-3 mt-5">
             <button type="submit" class="btn btn-primary">
                 Actualizar servicio
@@ -86,6 +95,24 @@
         </div>
 
     </form>
+
+    @if($servicio->imagenes->isNotEmpty())
+            <div class="mt-4">
+                <label class="form-label">Fotos actuales</label>
+                <div class="service-gallery service-gallery-admin">
+                    @foreach($servicio->imagenes as $imagen)
+                        <div class="service-gallery-item">
+                            <img src="{{ Storage::disk('public')->url($imagen->ruta) }}" alt="Ejemplo de {{ $servicio->nombre }}">
+                            <form action="{{ route('servicios.imagenes.destroy', [$servicio->id, $imagen->id]) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-light" onclick="return confirm('¿Eliminar esta imagen?')">Eliminar</button>
+                            </form>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+    @endif
 
 </div>
 

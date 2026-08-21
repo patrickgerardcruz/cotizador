@@ -22,4 +22,9 @@ class Servicio extends Model
     {
         return $this->hasMany(DetalleCotizacion::class);
     }
+
+    public function imagenes()
+    {
+        return $this->hasMany(ServicioImagen::class);
+    }
 }

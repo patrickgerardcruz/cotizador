@@ -41,97 +41,70 @@
         @csrf
         @method('PUT')
 
-        <div class="eyebrow mb-3" style="font-size: 0.72rem;">01 · Cliente</div>
+        <div class="eyebrow mb-3" style="font-size: 0.72rem;">01 · Datos de la cotización</div>
 
-        <div class="mb-4">
-            <label class="form-label">Cliente</label>
-            <select name="cliente_id" class="form-select" required>
-                <option value="">Seleccione un cliente</option>
-                @foreach($clientes as $cliente)
-                    <option value="{{ $cliente->id }}"
-                        {{ old('cliente_id', $cotizacion->cliente_id) == $cliente->id ? 'selected' : '' }}>
-                        {{ $cliente->nombre }}
-                        @if($cliente->empresa)
-                            — {{ $cliente->empresa }}
-                        @endif
-                    </option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="row">
-            <div class="col-sm-6 mb-4">
-                <label class="form-label">Fecha</label>
-                <input type="date" name="fecha"
-                       value="{{ old('fecha', \Illuminate\Support\Carbon::parse($cotizacion->fecha)->format('Y-m-d')) }}"
-                       class="form-control" required>
+        <div class="row gy-4 mb-4">
+            <div class="col-sm-6">
+                <div class="eyebrow mb-1" style="font-size: 0.72rem;">Cliente</div>
+                <div>{{ $cotizacion->cliente?->nombre ?? 'Cliente no encontrado' }}</div>
             </div>
-            <div class="col-sm-6 mb-4">
-                <label class="form-label">Validez</label>
-                <input type="date" name="validez"
-                       value="{{ old('validez', $cotizacion->validez ? \Illuminate\Support\Carbon::parse($cotizacion->validez)->format('Y-m-d') : '') }}"
-                       class="form-control">
+            <div class="col-sm-6">
+                <div class="eyebrow mb-1" style="font-size: 0.72rem;">Empresa</div>
+                <div>{{ $cotizacion->cliente?->empresa ?? '—' }}</div>
+            </div>
+            <div class="col-sm-6">
+                <div class="eyebrow mb-1" style="font-size: 0.72rem;">Fecha</div>
+                <div>{{ \Illuminate\Support\Carbon::parse($cotizacion->fecha)->format('d/m/Y') }}</div>
+            </div>
+            <div class="col-sm-6">
+                <div class="eyebrow mb-1" style="font-size: 0.72rem;">Validez</div>
+                <div>{{ $cotizacion->validez ? \Illuminate\Support\Carbon::parse($cotizacion->validez)->format('d/m/Y') : '—' }}</div>
             </div>
         </div>
 
         <hr class="hr-thin">
 
         <div class="eyebrow mb-1" style="font-size: 0.72rem;">02 · Servicios</div>
-        <p class="text-muted mb-3" style="font-size: 0.88rem;">Selecciona los servicios a incluir y su cantidad.</p>
+        <p class="text-muted mb-3" style="font-size: 0.88rem;">Estos son los servicios seleccionados por el cliente y no se pueden modificar.</p>
 
-        {{--
-            NOTA: asumo que $cotizacion->servicios es la relación many-to-many
-            con la tabla pivote que trae "cantidad". Ajusta si tu relación
-            se llama distinto (ej. $cotizacion->detalles).
-        --}}
-        <div class="mb-4">
-            @php
-                $serviciosSeleccionados = $cotizacion->detalles->pluck('cantidad', 'servicio_id');
-            @endphp
-
-            @foreach($servicios as $servicio)
-                @php
-                    $marcado = $serviciosSeleccionados->has($servicio->id);
-                    $cantidadActual = $marcado ? $serviciosSeleccionados[$servicio->id] : 1;
-                @endphp
-                <div class="service-item">
-                    <div class="service-main">
-                        <input
-                            type="checkbox"
-                            class="form-check-input"
-                            name="servicios[{{ $loop->index }}][servicio_id]"
-                            value="{{ $servicio->id }}"
-                            id="servicio_{{ $loop->index }}"
-                            onchange="activarCantidad({{ $loop->index }})"
-                            {{ $marcado ? 'checked' : '' }}
-                        >
-                        <label for="servicio_{{ $loop->index }}" class="service-name">
-                            {{ $servicio->nombre }}
-                        </label>
-                    </div>
-
-                    <div class="d-flex align-items-center gap-3">
-                        <span class="service-price">S/ {{ number_format($servicio->precio, 2) }}</span>
-                        <input
-                            type="number"
-                            id="cantidad_{{ $loop->index }}"
-                            name="servicios[{{ $loop->index }}][cantidad]"
-                            value="{{ $cantidadActual }}"
-                            min="1"
-                            {{ $marcado ? '' : 'disabled' }}
-                            class="service-qty"
-                        >
-                    </div>
-                </div>
-            @endforeach
+        <div class="table-responsive mb-4">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Servicio</th>
+                        <th class="text-end">Cantidad</th>
+                        <th class="text-end">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($cotizacion->detalles as $detalle)
+                        <tr>
+                            <td>{{ $detalle->servicio?->nombre ?? 'Servicio no encontrado' }}</td>
+                            <td class="text-end">{{ $detalle->cantidad }}</td>
+                            <td class="text-end">S/ {{ number_format($detalle->subtotal, 2) }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
 
         <hr class="hr-thin">
 
-        <div class="eyebrow mb-3" style="font-size: 0.72rem;">03 · Observaciones</div>
+        <div class="eyebrow mb-3" style="font-size: 0.72rem;">03 · Detalles y estado</div>
+
+        <div class="mb-4">
+            <label class="form-label" for="estado">Estado</label>
+            <select name="estado" id="estado" class="form-select" required>
+                <option value="pendiente" {{ old('estado', $cotizacion->estado) === 'pendiente' ? 'selected' : '' }}>Pendiente</option>
+                <option value="en proceso" {{ old('estado', $cotizacion->estado) === 'en proceso' ? 'selected' : '' }}>En proceso</option>
+                <option value="entregado" {{ old('estado', $cotizacion->estado) === 'entregado' ? 'selected' : '' }}>Entregado</option>
+            </select>
+        </div>
 
         <div class="mb-5">
+            <label class="form-label" for="observaciones">Detalles / observaciones</label>
             <textarea
+                id="observaciones"
                 name="observaciones"
                 rows="4"
                 class="form-control"
@@ -152,16 +125,6 @@
     </form>
 
 </div>
-
-<script>
-function activarCantidad(index) {
-    const checkbox = document.querySelector(
-        'input[name="servicios[' + index + '][servicio_id]"]'
-    );
-    const cantidad = document.getElementById('cantidad_' + index);
-    cantidad.disabled = !checkbox.checked;
-}
-</script>
 
 </body>
 </html>

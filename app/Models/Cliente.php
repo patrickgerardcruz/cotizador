@@ -8,6 +8,7 @@ use App\Models\Cotizacion;
 class Cliente extends Model
 {
     protected $fillable = [
+        'user_id',
         'nombre',
         'empresa',
         'ruc',

@@ -43,9 +43,6 @@
     </div>
 
     <div class="d-flex align-items-center gap-3 mt-5 pb-5">
-        <a href="{{ route('clientes.edit', $cliente->id) }}" class="btn btn-primary">
-            Editar cliente
-        </a>
         <a href="{{ route('clientes.index') }}" class="btn btn-link">
             Volver a clientes
         </a>

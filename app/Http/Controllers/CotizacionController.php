@@ -92,21 +92,23 @@ public function index()
 
     public function edit(Cotizacion $cotizacion)
     {
-        $clientes = Cliente::all();
-        $servicios = Servicio::where('estado', true)->get();
-
         $cotizacion->load('detalles.servicio');
 
-        return view('cotizaciones.edit', compact(
-            'cotizacion',
-            'clientes',
-            'servicios'
-        ));
+        return view('cotizaciones.edit', compact('cotizacion'));
     }
 
     public function update(Request $request, Cotizacion $cotizacion)
     {
-        // Lo implementaremos después.
+        $data = $request->validate([
+            'observaciones' => 'nullable|string|max:1000',
+            'estado' => 'required|in:pendiente,en proceso,entregado',
+        ]);
+
+        $cotizacion->update($data);
+
+        return redirect()
+            ->route('cotizaciones.show', $cotizacion)
+            ->with('success', 'Cotización actualizada correctamente.');
     }
 
     public function destroy(Cotizacion $cotizacion)
