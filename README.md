@@ -1,59 +1,85 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Cotizador PixelCode
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplicación web para publicar un catálogo de servicios, recibir solicitudes de cotización y darles seguimiento desde un panel de administración. Los importes se muestran en soles peruanos (S/).
 
-## About Laravel
+**Demo:** [Ver el catálogo](https://cotizador-theta-eight.vercel.app/servicios-publico) · [Iniciar sesión](https://cotizador-theta-eight.vercel.app/login)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Funciones
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+| Usuario | Funciones |
+| --- | --- |
+| Visitante | Explorar servicios, consultar precios y acceder a la información de contacto. |
+| Cliente | Crear una cuenta, completar su perfil, solicitar cotizaciones y consultar su historial. |
+| Administrador | Gestionar clientes, servicios e imágenes. Crear y editar cotizaciones y actualizar su estado: pendiente, en proceso o entregado. |
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Tecnologías
 
-## Learning Laravel
+- **Servidor:** PHP 8.2 o superior y Laravel 12.
+- **Interfaz:** Blade, Bootstrap y Vite.
+- **Base de datos:** MySQL o MariaDB en local y PostgreSQL de Neon en producción.
+- **Alojamiento:** Vercel, con un contenedor PHP definido en `Dockerfile.vercel` en la copia de despliegue.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Ejecutar en local con XAMPP
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Necesitas PHP 8.2 o superior con la extensión `pdo_mysql`, Composer y MySQL o MariaDB. Los comandos están escritos para PowerShell.
 
-## Laravel Sponsors
+1. Inicia MySQL desde XAMPP y crea una base de datos llamada `cotizador`. Abre la carpeta del proyecto:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+   ```powershell
+   cd C:\xampp\htdocs\cotizador
+   ```
 
-### Premium Partners
+   Si `php -v` muestra PHP 8.0 y tienes PHP 8.2 instalado en `C:\xampp\php82`, ajusta la ruta para esta sesión de PowerShell:
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+   ```powershell
+   $env:Path = "C:\xampp\php82;$env:Path"
+   php -v
+   ```
 
-## Contributing
+2. Instala las dependencias y crea el archivo de configuración si aún no existe:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+   ```powershell
+   composer install
+   if (-not (Test-Path .env)) { Copy-Item .env.example .env }
+   ```
 
-## Code of Conduct
+3. Edita `.env` para conectar con la base local. Usa el usuario y la contraseña de tu instalación de MySQL:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+   ```dotenv
+   APP_NAME="Cotizador PixelCode"
+   APP_URL=http://127.0.0.1:8001
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=cotizador
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
 
-## Security Vulnerabilities
+4. Si `APP_KEY` está vacío, ejecuta `php artisan key:generate`. Luego aplica las migraciones e inicia Laravel:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+   ```powershell
+   php artisan config:clear
+   php artisan migrate
+   php artisan serve --host=127.0.0.1 --port=8001
+   ```
 
-## License
+   Abre [el catálogo local](http://127.0.0.1:8001/servicios-publico). La base recién creada estará vacía. La demo publicada ya contiene seis servicios de ejemplo.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+La instalación local preparada incluye los recursos compilados en `public/build`. Si partes de una copia nueva y necesitas regenerarlos, utiliza la copia de despliegue con la configuración de Vite revisada y ejecuta `npm ci` y `npm run build` allí. Los scripts originales de la carpeta XAMPP contienen código ofuscado pendiente de revisión.
+
+## Despliegue
+
+Vercel ejecuta Laravel en un contenedor PHP y se conecta a Neon mediante `DATABASE_URL` o `DATABASE_URL_UNPOOLED`. Configura `DB_CONNECTION=pgsql`, `APP_ENV=production`, `APP_DEBUG=false`, `APP_URL` con el dominio de producción y una `APP_KEY` propia del entorno. Aplica `php artisan migrate --force` con acceso a la base de producción antes de publicar una versión que requiera cambios en el esquema.
+
+Las variables del entorno se configuran en Vercel. Mantén `.env`, las claves de aplicación y las contraseñas fuera del repositorio.
+
+## Estructura
+
+| Ruta | Contenido |
+| --- | --- |
+| `app/Http/Controllers/` | Flujos del catálogo, clientes, servicios y cotizaciones. |
+| `app/Models/` | Modelos y relaciones de la base de datos. |
+| `database/migrations/` | Esquema de la base de datos. |
+| `resources/views/` | Pantallas públicas, de cliente y de administración. |
+| `routes/web.php` | Rutas web y controles de acceso por rol.
